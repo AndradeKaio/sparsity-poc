@@ -1,4 +1,7 @@
+#include <chrono>
 #include <iostream>
+#include <omp.h>
+#include <ostream>
 #include <stdio.h>
 #include <taco.h>
 #include <vector>
@@ -24,6 +27,7 @@ bool sampling(DenseMatrix input, float sparsity) {
   int rows = input.size();
   int cols = input.empty() ? 0 : input[0].size();
   int count = 0;
+#pragma omp parallel for reduction(+ : count) collapse(2)
   for (int i = 0; i < rows; i++)
     for (int j = 0; j < cols; j++)
       if (input[i][j] == 0)
@@ -69,12 +73,18 @@ Tensor<double> matrixMultiply(Tensor<double> A, Tensor<double> B,
 }
 
 int main(int argc, char *argv[]) {
-  DenseMatrix b = genMatrix(5, 5, 0.3);
-  DenseMatrix c = genMatrix(5, 5, 0.3);
+  int N = 1024;
+  DenseMatrix b = genMatrix(N, N, 0.4);
+  DenseMatrix c = genMatrix(N, N, 0.4);
+  auto start = std::chrono::high_resolution_clock::now();
+  cout << sampling(b, 0.3) << endl;
+  auto end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double, std::milli> duration = end - start;
+  std::cout << "Execution time: " << duration.count() << " ms" << std::endl;
   Tensor<double> B = convertToTACO(b, Format({Sparse, Dense}));
   Tensor<double> C = convertToTACO(c, Format({Sparse, Dense}));
-  Tensor<double> A({5, 5}, Format({Sparse, Dense}));
+  Tensor<double> A({N, N}, Format({Sparse, Dense}));
   A = matrixMultiply(A, B, C);
-  cout << A << endl;
+  // cout << A << endl;
   return 0;
 }
