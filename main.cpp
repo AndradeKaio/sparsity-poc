@@ -46,6 +46,20 @@ Tensor<double> convertToTACO(DenseMatrix matrix, Format format) {
   return tensor;
 }
 
+DenseMatrix matrixMultiply(DenseMatrix A, DenseMatrix B) {
+  int m = A.size();
+  int n = B[0].size();
+  int p = A[0].size();
+
+  DenseMatrix C(m, vector<double>(n, 0.0));
+
+  for (int i = 0; i < m; i++)
+    for (int j = 0; j < n; j++)
+      for (int k = 0; k < p; k++)
+        C[i][j] += A[i][k] * B[k][j];
+  return C;
+}
+
 Tensor<double> matrixMultiply(Tensor<double> A, Tensor<double> B,
                               Tensor<double> C) {
   IndexVar i("i"), j("j"), k("k");
