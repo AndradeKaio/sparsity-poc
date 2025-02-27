@@ -22,7 +22,14 @@ DenseMatrix genMatrix(int rows, int cols, float sparsity){
 }
 
 bool sampling(DenseMatrix input, float sparsity){
-  return false;
+  int rows = input.size(); 
+  int cols = input.empty() ? 0 : input[0].size();
+  int count = 0;
+  for (int i=0; i<rows; i++)
+    for (int j=0; j<cols; j++)
+      if(input[i][j] == 0)
+        count++;
+  return static_cast<double>(count) / (rows * cols) >= sparsity;
 }
 
 Tensor<double> convertToTACO(DenseMatrix matrix, Format format){
@@ -31,7 +38,7 @@ Tensor<double> convertToTACO(DenseMatrix matrix, Format format){
   Tensor<double> tensor({rows, cols}, sparse);
 
   for (int i=0; i<rows; i++)
-    for (int j=0; j<rows; j++){
+    for (int j=0; j<cols; j++){
       double x = matrix[i][j];
       if(x != 0)
         tensor.insert({i, j}, x);
@@ -43,6 +50,7 @@ Tensor<double> convertToTACO(DenseMatrix matrix, Format format){
 
 int main (int argc, char *argv[]){
   DenseMatrix input = genMatrix(5, 5, 0.3);
+  cout << sampling(input, 0.3) << endl;
   Tensor<double> t = convertToTACO(input, Format({Dense,Sparse,Sparse}));
   cout << t << endl;
   return 0;
