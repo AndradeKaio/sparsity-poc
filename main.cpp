@@ -1,3 +1,4 @@
+#include "utils/chrono_timer.h"
 #include <chrono>
 #include <iostream>
 #include <omp.h>
@@ -72,19 +73,65 @@ Tensor<double> matrixMultiply(Tensor<double> A, Tensor<double> B,
   return A;
 }
 
+void spmm(Tensor<double> A, Tensor<double> B, Format format = {Sparse, Dense}) {
+  auto start = begin();
+
+  int m = A.getDimension(0);
+  int n = B.getDimension(1);
+  Tensor<double> C({m, n}, Format({Dense, Sparse}));
+  C = matrixMultiply(C, A, B);
+
+  end(start);
+}
+
+void spmmInput(DenseMatrix input, Tensor<double> B,
+               Format format = {Sparse, Dense}) {
+  auto start = begin();
+  Tensor<double> A = convertToTACO(input, format);
+  int m = A.getDimension(0);
+  int n = B.getDimension(1);
+  Tensor<double> C({m, n}, format);
+  C = matrixMultiply(C, A, B);
+}
+
+void spmmInputSampling(DenseMatrix input, Tensor<double> B,
+                       Format format = {Sparse, Dense}, float sparsity = 0.8) {
+  // Input has the desired sparsity
+  auto start = begin();
+
+  bool yes = sampling(input, sparsity);
+  Tensor<double> A = convertToTACO(input, Format({Sparse, Sparse}));
+  int m = A.getDimension(0);
+  int n = B.getDimension(1);
+  Tensor<double> C({m, n}, Format({Dense, Sparse}));
+  C = matrixMultiply(C, A, B);
+
+  end(start);
+}
+
+void ddmm(DenseMatrix A, DenseMatrix B) {
+  auto start = begin();
+
+  DenseMatrix c = matrixMultiply(A, B);
+
+  end(start);
+}
+
 int main(int argc, char *argv[]) {
   int N = 1024;
-  DenseMatrix b = genMatrix(N, N, 0.4);
-  DenseMatrix c = genMatrix(N, N, 0.4);
+  DenseMatrix b = genMatrix(N, N, 0.8);
+  DenseMatrix c = genMatrix(N, N, 0.8);
+
+  Tensor<double> B = convertToTACO(b, Format({Sparse, Sparse}));
+  Tensor<double> C = convertToTACO(c, Format({Sparse, Sparse}));
   auto start = std::chrono::high_resolution_clock::now();
   cout << sampling(b, 0.3) << endl;
+  Tensor<double> A({N, N}, Format({Dense, Dense}));
+  A = matrixMultiply(A, B, C);
+
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double, std::milli> duration = end - start;
   std::cout << "Execution time: " << duration.count() << " ms" << std::endl;
-  Tensor<double> B = convertToTACO(b, Format({Sparse, Dense}));
-  Tensor<double> C = convertToTACO(c, Format({Sparse, Dense}));
-  Tensor<double> A({N, N}, Format({Sparse, Dense}));
-  A = matrixMultiply(A, B, C);
   // cout << A << endl;
   return 0;
 }
