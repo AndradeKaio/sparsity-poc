@@ -1,8 +1,9 @@
 POC of matrix multiplication format versioning
 
 ```bash
-clang++ -std=c++11 -I/path/to/taco/include/ \
-                  -L/path/to/taco/build/lib/ \
-                  -Wl,-rpath,/path/to/taco/build/lib/ \
-                    -ltaco main.cpp -o a.out
+/opt/homebrew/opt/llvm/bin/clang++ -std=c++11 -fopenmp \
+                                                          -I/Users/kaio/Projects/tensor-compilers/taco/include/ \
+                                                          -L/Users/kaio/Projects/tensor-compilers/taco/build/lib/ \
+                                                          -Wl,-rpath,/Users/kaio/Projects/tensor-compilers/taco/build/lib/ \
+                                                          -ltaco src/main.cpp src/spmm.cpp src/test_spmm.cpp -o a.out
 ```
