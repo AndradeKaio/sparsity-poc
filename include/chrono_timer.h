@@ -13,7 +13,7 @@ end(const std::chrono::time_point<std::chrono::high_resolution_clock> &start) {
   auto stop = std::chrono::high_resolution_clock::now();
   auto duration =
       std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-  std::cout << "t:" << duration.count() << std::endl;
+  std::cout << duration.count() << std::endl;
 }
 
 #endif // CHRONO_TIMER_H
