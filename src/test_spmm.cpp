@@ -26,17 +26,21 @@ void run(int rows, int cols, const std::string &format, double sparsity,
 
     Format tFormat;
     if (format == "CSR")
-      Format tFormat({Sparse, Dense});
+      tFormat = Format({Sparse, Dense});
     else if (format == "CSC")
-      Format tFormat({Dense, Sparse});
+      tFormat = Format({Dense, Sparse});
     else
-      Format tFormat({Sparse, Sparse});
+      tFormat = Format({Sparse, Sparse});
+
 
     Tensor<double> B = convertToTACO(genMatrix(rows, cols, sparsity), tFormat);
     if (!input) {
       Tensor<double> A =
           convertToTACO(genMatrix(rows, cols, sparsity), tFormat);
-      spmm(A, B, tFormat);
+      if (sampling == "sampling")
+        spmmSampling(A, B, tFormat, sparsity, false);
+      else
+        spmm(A, B, tFormat);
     } else {
       DenseMatrix A = genMatrix(rows, cols, sparsity);
       if (sampling == "sampling") {
