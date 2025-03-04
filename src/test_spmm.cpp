@@ -30,8 +30,7 @@ void run(int rows, int cols, const std::string &format, double sparsity,
     else if (format == "CSC")
       tFormat = Format({Dense, Sparse});
     else
-      tFormat = Format({Sparse, Sparse});
-
+      tFormat = Format({Sparse, Sparse}, {1, 0});
 
     Tensor<double> B = convertToTACO(genMatrix(rows, cols, sparsity), tFormat);
     if (!input) {

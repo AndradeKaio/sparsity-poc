@@ -17,7 +17,7 @@
   ((1024, 1024), DCSC, 0.8, false, none),
   ((1024, 1024), DCSC, 0.9, false, none),
 
-  #SPMM DSCR
+  #SPMM DD
 
   ((1024, 1024), DD, 0.0, false, none),
 

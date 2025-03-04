@@ -33,14 +33,14 @@ def run_binary(binary_path, args, num_runs):
     return total_time / num_runs
 
 def main():
-    if len(sys.argv) != 4:
-        print("Usage: python script.py <config_file> <num_runs> <binary_path>")
+    if len(sys.argv) != 5:
+        print("Usage: python script.py <binary_path> <config_file> <output_file> <num_runs>")
         sys.exit(1)
     
-    config_file = sys.argv[1]
-    num_runs = int(sys.argv[2])
-    binary_path = sys.argv[3]
-    output_file = "out.txt"
+    binary_path = sys.argv[1]
+    config_file = sys.argv[2]
+    output_file = sys.argv[3]
+    num_runs = int(sys.argv[4])
     
     configs = parse_config_file(config_file)
     with open(output_file, "wt") as output:

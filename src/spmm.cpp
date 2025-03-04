@@ -13,6 +13,14 @@ using namespace taco;
 
 using DenseMatrix = vector<vector<double>>;
 
+void printMatrix(DenseMatrix matrix) {
+  int rows = matrix.size();
+  int cols = matrix.empty() ? 0 : matrix[0].size();
+  for (int i = 0; i < rows; ++i)
+    for (int j = 0; j < cols; ++j)
+      cout << matrix[i][j];
+}
+
 DenseMatrix genMatrix(int rows, int cols, float sparsity) {
   DenseMatrix matrix(rows, vector<double>(cols, 0.0));
   srand(time(0));
@@ -55,9 +63,9 @@ bool samplingTaco(Tensor<double> input, float sparsity, bool parallel) {
         if (input.at({i, j}) == 0)
           count++;
   } else {
-    for (auto& val : input)
+    for (auto &val : input)
       if (val.second == 0)
-          count++;
+        count++;
   }
   return static_cast<double>(count) / (rows * cols) >= sparsity;
 }
@@ -79,7 +87,7 @@ Tensor<double> convertToTACO(DenseMatrix matrix, Format format) {
 
 Tensor<double> convertToFormat(Tensor<double> dense, Format format) {
   Tensor<double> sparse({dense.getDimension(0), dense.getDimension(1)}, format);
-  for (auto& val : dense)
+  for (auto &val : dense)
     sparse.insert(val.first.toVector(), val.second);
   sparse.pack();
   return sparse;
@@ -114,7 +122,6 @@ void spmm(Tensor<double> A, Tensor<double> B, Format format) {
   int n = B.getDimension(1);
   Tensor<double> C({m, n}, format);
   C = matrixMultiply(C, A, B);
-
   end(start);
 }
 
@@ -125,6 +132,7 @@ void spmmInput(DenseMatrix input, Tensor<double> B, Format format) {
   int n = B.getDimension(1);
   Tensor<double> C({m, n}, format);
   C = matrixMultiply(C, A, B);
+  end(start);
 }
 
 void spmmInputSampling(DenseMatrix input, Tensor<double> B, Format format,
@@ -143,7 +151,7 @@ void spmmInputSampling(DenseMatrix input, Tensor<double> B, Format format,
 }
 
 void spmmSampling(Tensor<double> A, Tensor<double> B, Format format,
-                       float sparsity, bool parallel) {
+                  float sparsity, bool parallel) {
   // Input has the desired sparsity
   auto start = begin();
   bool yes = samplingTaco(A, sparsity, parallel);
@@ -152,14 +160,11 @@ void spmmSampling(Tensor<double> A, Tensor<double> B, Format format,
   int n = B.getDimension(1);
   Tensor<double> C({m, n}, format);
   C = matrixMultiply(C, A, B);
-
   end(start);
 }
 
 void ddmm(DenseMatrix A, DenseMatrix B) {
   auto start = begin();
-
   DenseMatrix c = matrixMultiply(A, B);
-
   end(start);
 }
