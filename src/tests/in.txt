@@ -1,7 +1,5 @@
 # size, format, sparsity, input-conv, sampling
 
-
-[
   # SPMM CSR 
   ((1024, 1024), CSR, 0.6, false, none),
   ((1024, 1024), CSR, 0.8, false, none),
@@ -22,13 +20,9 @@
   #SPMM DSCR
 
   ((1024, 1024), DD, 0.0, false, none),
-  ((1024, 1024), DD, 0.0, false, none),
-  ((1024, 1024), DD, 0.0, false, none),
 
   #Naive
 
-  ((1024, 1024), NDD, 0.0, false, none),
-  ((1024, 1024), NDD, 0.0, false, none),
   ((1024, 1024), NDD, 0.0, false, none),
 
   #SPMM + input
@@ -48,5 +42,3 @@
   ((1024, 1024), CSR, 0.6, true, psampling),
   ((1024, 1024), CSR, 0.8, true, psampling),
   ((1024, 1024), CSR, 0.9, true, psampling),
-]
-
