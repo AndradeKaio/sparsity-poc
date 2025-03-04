@@ -52,7 +52,7 @@ def main():
             args = [config[0][0], config[0][1], config[1], config[2], config[3], config[4], config[5]]
             avg_time = run_binary(binary_path, args, num_runs)
             output.write(f"{args}:{avg_time:.2f}ms\n")
-            print(f"Executed {args}: {avg_time:.2f} ms")
+            print(f"Executed {args}:{avg_time:.2f}ms")
 
 if __name__ == "__main__":
     main()
