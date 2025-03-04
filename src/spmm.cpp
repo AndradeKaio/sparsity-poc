@@ -44,10 +44,28 @@ bool sampling(DenseMatrix input, float sparsity, bool parallel) {
   return static_cast<double>(count) / (rows * cols) >= sparsity;
 }
 
+bool samplingTaco(Tensor<double> input, float sparsity, bool parallel) {
+  int rows = input.getDimension(0);
+  int cols = input.getDimension(1);
+  int count = 0;
+  if (parallel) {
+#pragma omp parallel for reduction(+ : count) collapse(2)
+    for (int i = 0; i < rows; i++)
+      for (int j = 0; j < cols; j++)
+        if (input.at({i, j}) == 0)
+          count++;
+  } else {
+    for (auto& val : input)
+      if (val.second == 0)
+          count++;
+  }
+  return static_cast<double>(count) / (rows * cols) >= sparsity;
+}
+
 Tensor<double> convertToTACO(DenseMatrix matrix, Format format) {
   int rows = matrix.size();
   int cols = matrix.empty() ? 0 : matrix[0].size();
-  Tensor<double> tensor({rows, cols}, sparse);
+  Tensor<double> tensor({rows, cols}, format);
 
   for (int i = 0; i < rows; i++)
     for (int j = 0; j < cols; j++) {
@@ -57,6 +75,14 @@ Tensor<double> convertToTACO(DenseMatrix matrix, Format format) {
     }
   tensor.pack();
   return tensor;
+}
+
+Tensor<double> convertToFormat(Tensor<double> dense, Format format) {
+  Tensor<double> sparse({dense.getDimension(0), dense.getDimension(1)}, format);
+  for (auto& val : dense)
+    sparse.insert(val.first.toVector(), val.second);
+  sparse.pack();
+  return sparse;
 }
 
 DenseMatrix matrixMultiply(DenseMatrix A, DenseMatrix B) {
@@ -86,7 +112,7 @@ void spmm(Tensor<double> A, Tensor<double> B, Format format) {
 
   int m = A.getDimension(0);
   int n = B.getDimension(1);
-  Tensor<double> C({m, n}, Format({Dense, Sparse}));
+  Tensor<double> C({m, n}, format);
   C = matrixMultiply(C, A, B);
 
   end(start);
@@ -107,10 +133,24 @@ void spmmInputSampling(DenseMatrix input, Tensor<double> B, Format format,
   auto start = begin();
 
   bool yes = sampling(input, sparsity, parallel);
-  Tensor<double> A = convertToTACO(input, Format({Sparse, Sparse}));
+  Tensor<double> A = convertToTACO(input, format);
   int m = A.getDimension(0);
   int n = B.getDimension(1);
-  Tensor<double> C({m, n}, Format({Dense, Sparse}));
+  Tensor<double> C({m, n}, format);
+  C = matrixMultiply(C, A, B);
+
+  end(start);
+}
+
+void spmmSampling(Tensor<double> A, Tensor<double> B, Format format,
+                       float sparsity, bool parallel) {
+  // Input has the desired sparsity
+  auto start = begin();
+  bool yes = samplingTaco(A, sparsity, parallel);
+  B = convertToFormat(B, format);
+  int m = A.getDimension(0);
+  int n = B.getDimension(1);
+  Tensor<double> C({m, n}, format);
   C = matrixMultiply(C, A, B);
 
   end(start);
