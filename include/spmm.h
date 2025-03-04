@@ -17,14 +17,14 @@ taco::Tensor<double> matrixMultiply(taco::Tensor<double> A,
                                     taco::Tensor<double> B,
                                     taco::Tensor<double> C);
 void spmm(taco::Tensor<double> A, taco::Tensor<double> B,
-          taco::Format format = {taco::Sparse, taco::Dense});
+          taco::Format format = {taco::Dense, taco::Dense});
 void spmmInput(DenseMatrix input, taco::Tensor<double> B,
-               taco::Format format = {taco::Sparse, taco::Dense});
+               taco::Format format = {taco::Dense, taco::Dense});
 void spmmSampling(taco::Tensor<double> A, taco::Tensor<double> B,
-                  taco::Format format = {taco::Sparse, taco::Dense},
+                  taco::Format format = {taco::Dense, taco::Dense},
                   float sparsity = 0.8, bool parallel = false);
 void spmmInputSampling(DenseMatrix input, taco::Tensor<double> B,
-                       taco::Format format = {taco::Sparse, taco::Dense},
+                       taco::Format format = {taco::Dense, taco::Dense},
                        float sparsity = 0.8, bool parallel = false);
 void ddmm(DenseMatrix A, DenseMatrix B);
 

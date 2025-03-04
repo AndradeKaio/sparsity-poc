@@ -6,7 +6,7 @@
 int parseArguments(int argc, char *argv[]);
 
 void run(int rows, int cols, const std::string &format, double sparsity,
-         bool input, const std::string &sampling);
+         bool input, const std::string &sampling, bool dense_output);
 
 void runTests(int argc, char *argv[]);
 
