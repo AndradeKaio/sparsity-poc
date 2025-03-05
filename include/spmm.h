@@ -6,26 +6,27 @@
 
 using DenseMatrix = std::vector<std::vector<double>>;
 
-void printMatrix(DenseMatrix matrix);
-DenseMatrix genMatrix(int rows, int cols, float sparsity);
-bool sampling(DenseMatrix input, float sparsity, bool parallel);
-taco::Tensor<double> convertToTACO(DenseMatrix matrix, taco::Format format);
-taco::Tensor<double> convertToFormat(taco::Tensor<double> dense,
-                                     taco::Format format);
-DenseMatrix matrixMultiply(DenseMatrix A, DenseMatrix B);
-taco::Tensor<double> matrixMultiply(taco::Tensor<double> A,
-                                    taco::Tensor<double> B,
-                                    taco::Tensor<double> C);
-void spmm(taco::Tensor<double> A, taco::Tensor<double> B,
-          taco::Format format = {taco::Dense, taco::Dense});
-void spmmInput(DenseMatrix input, taco::Tensor<double> B,
-               taco::Format format = {taco::Dense, taco::Dense});
-void spmmSampling(taco::Tensor<double> A, taco::Tensor<double> B,
-                  taco::Format format = {taco::Dense, taco::Dense},
+const void printMatrix(const DenseMatrix& matrix);
+const DenseMatrix genMatrix(int rows, int cols, float sparsity);
+const bool sampling(const DenseMatrix& input, float sparsity, bool parallel);
+const bool samplingTaco(taco::Tensor<double>& input, float sparsity, bool parallel);
+const taco::Tensor<double> convertToTACO(DenseMatrix& matrix, const taco::Format& format);
+const taco::Tensor<double> convertToFormat(const taco::Tensor<double>& dense,
+                                     const taco::Format& format);
+const DenseMatrix matrixMultiply(const DenseMatrix& A, const DenseMatrix& B);
+taco::Tensor<double> matrixMultiply(taco::Tensor<double>& A,
+                                    const taco::Tensor<double>& B,
+                                    const taco::Tensor<double>& C);
+const void spmm(const taco::Tensor<double>& A, const taco::Tensor<double>& B,
+          const taco::Format& format = {taco::Dense, taco::Dense});
+const void spmmInput(DenseMatrix& input, const taco::Tensor<double>& B,
+               const taco::Format& format = {taco::Dense, taco::Dense});
+const void spmmSampling(taco::Tensor<double>& A, taco::Tensor<double>& B,
+                  const taco::Format& format = {taco::Dense, taco::Dense},
                   float sparsity = 0.8, bool parallel = false);
-void spmmInputSampling(DenseMatrix input, taco::Tensor<double> B,
-                       taco::Format format = {taco::Dense, taco::Dense},
+const void spmmInputSampling(DenseMatrix& input, const taco::Tensor<double>& B,
+                       const taco::Format& format = {taco::Dense, taco::Dense},
                        float sparsity = 0.8, bool parallel = false);
-void ddmm(DenseMatrix A, DenseMatrix B);
+const void ddmm(const DenseMatrix& A, const DenseMatrix& B);
 
 #endif

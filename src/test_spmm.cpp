@@ -1,6 +1,5 @@
 #include "../include/spmm.h"
 #include <iostream>
-#include <sstream>
 #include <string>
 #include <taco.h>
 #include <vector>
@@ -18,10 +17,10 @@ void run(int rows, int cols, const std::string &format, double sparsity,
     DenseMatrix B = genMatrix(rows, cols, 0.0);
     ddmm(A, B);
   } else if (format == "DD") {
-    Tensor<double> A =
-        convertToTACO(genMatrix(rows, cols, 0.0), Format({Dense, Dense}));
-    Tensor<double> B =
-        convertToTACO(genMatrix(rows, cols, 0.0), Format({Dense, Dense}));
+    DenseMatrix tmp = genMatrix(rows, cols, 0.0);
+    Tensor<double> A = convertToTACO(tmp, Format({Dense, Dense}));
+    tmp = genMatrix(rows, cols, 0.0);
+    Tensor<double> B = convertToTACO(tmp, Format({Dense, Dense}));
     spmm(A, B, Format({Dense, Dense}));
   } else {
 
@@ -40,10 +39,10 @@ void run(int rows, int cols, const std::string &format, double sparsity,
     else
       outFormat = tFormat;
 
-    Tensor<double> B = convertToTACO(genMatrix(rows, cols, sparsity), tFormat);
+    DenseMatrix tmp = genMatrix(rows, cols, 0.0);
+    Tensor<double> B = convertToTACO(tmp, tFormat);
     if (!input) {
-      Tensor<double> A =
-          convertToTACO(genMatrix(rows, cols, sparsity), tFormat);
+      Tensor<double> A = convertToTACO(tmp, tFormat);
       if (sampling == "sampling")
         spmmSampling(A, B, outFormat, sparsity, false);
       else
