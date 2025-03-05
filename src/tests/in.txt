@@ -5,17 +5,61 @@
   ((1024, 1024), CSR, false, 0.8, false, none),
   ((1024, 1024), CSR, false, 0.9, false, none),
 
+  ((1024, 1024), CSR, false, 0.6, true, none),
+  ((1024, 1024), CSR, false, 0.8, true, none),
+  ((1024, 1024), CSR, false, 0.9, true, none),
+
+  ((1024, 1024), CSR, false, 0.6, true, sampling),
+  ((1024, 1024), CSR, false, 0.8, true, sampling),
+  ((1024, 1024), CSR, false, 0.9, true, sampling),
+
+  ((1024, 1024), CSR, false, 0.6, true, psampling),
+  ((1024, 1024), CSR, false, 0.8, true, psampling),
+  ((1024, 1024), CSR, false, 0.9, true, psampling),
+
+  ((1024, 1024), CSR, true, 0.6, true, psampling),
+  ((1024, 1024), CSR, true, 0.8, true, psampling),
+  ((1024, 1024), CSR, true, 0.9, true, psampling),
+
   #SPMM CSC
 
   ((1024, 1024), CSC, false, 0.6, false, none),
   ((1024, 1024), CSC, false, 0.8, false, none),
   ((1024, 1024), CSC, false, 0.9, false, none),
 
+  ((1024, 1024), CSC, false, 0.6, true, none),
+  ((1024, 1024), CSC, false, 0.8, true, none),
+  ((1024, 1024), CSC, false, 0.9, true, none),
+
+  ((1024, 1024), CSC, false, 0.6, true, sampling),
+  ((1024, 1024), CSC, false, 0.8, true, sampling),
+  ((1024, 1024), CSC, false, 0.9, true, sampling),
+
+  ((1024, 1024), CSC, false, 0.6, true, psampling),
+  ((1024, 1024), CSC, false, 0.8, true, psampling),
+  ((1024, 1024), CSC, false, 0.9, true, psampling),
+
+  ((1024, 1024), CSC, true, 0.6, true, psampling),
+  ((1024, 1024), CSC, true, 0.8, true, psampling),
+  ((1024, 1024), CSC, true, 0.9, true, psampling),
+
   #SPMM DCSR
 
   ((1024, 1024), DCSR, true, 0.6, false, none),
   ((1024, 1024), DCSR, true, 0.8, false, none),
   ((1024, 1024), DCSR, true, 0.9, false, none),
+
+  ((1024, 1024), DCSR, true, 0.6, true, none),
+  ((1024, 1024), DCSR, true, 0.8, true, none),
+  ((1024, 1024), DCSR, true, 0.9, true, none),
+
+  ((1024, 1024), DCSR, true, 0.6, true, sampling),
+  ((1024, 1024), DCSR, true, 0.8, true, sampling),
+  ((1024, 1024), DCSR, true, 0.9, true, sampling),
+
+  ((1024, 1024), DCSR, true, 0.6, true, psampling),
+  ((1024, 1024), DCSR, true, 0.8, true, psampling),
+  ((1024, 1024), DCSR, true, 0.9, true, psampling),
 
   #SPMM DD
 
@@ -24,28 +68,4 @@
   #Naive
 
   ((1024, 1024), NDD, false, 0.0, false, none),
-
-  #SPMM + input
-
-  ((1024, 1024), CSR, false, 0.6, true, none),
-  ((1024, 1024), CSR, false, 0.8, true, none),
-  ((1024, 1024), CSR, false, 0.9, true, none),
-
-  #SPMM + input + sampling
-
-  ((1024, 1024), CSR, false, 0.6, true, sampling),
-  ((1024, 1024), CSR, false, 0.8, true, sampling),
-  ((1024, 1024), CSR, false, 0.9, true, sampling),
-
-  #SPMM + input + psampling
-
-  ((1024, 1024), CSR, false, 0.6, true, psampling),
-  ((1024, 1024), CSR, false, 0.8, true, psampling),
-  ((1024, 1024), CSR, false, 0.9, true, psampling),
-
-  #SPMM + input + psampling
-
-  ((1024, 1024), DCSR, false, 0.6, true, psampling),
-  ((1024, 1024), DCSR, false, 0.8, true, psampling),
-  ((1024, 1024), DCSR, false, 0.9, true, psampling),
 
