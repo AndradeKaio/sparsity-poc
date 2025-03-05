@@ -67,6 +67,6 @@
 
   #Naive
 
-  ((2048, 2048), NDD, false, 0.0, false, none),
+  #((2048, 2048), NDD, false, 0.0, false, none),
 
 
