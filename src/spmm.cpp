@@ -3,9 +3,9 @@
 #include "../include/utils.h"
 #include <chrono>
 #include <iostream>
-#include <string>
-// #include <omp.h>
+#include <omp.h>
 #include <ostream>
+#include <string>
 #include <taco.h>
 #include <vector>
 

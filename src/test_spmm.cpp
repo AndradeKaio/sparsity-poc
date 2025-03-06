@@ -13,9 +13,14 @@ void run(int rows, int cols, const std::string &format, double sparsity,
             << ", sparsity:" << sparsity << ", input-conversion:" << input
             << ", sampling:" << sampling << std::endl;
   if (format == "NDD") {
-    DenseMatrix A = genMatrix(rows, cols, 0.0);
-    DenseMatrix B = genMatrix(rows, cols, 0.0);
-    ddmm(A, B);
+    DenseMatrix A = genMatrix(rows, cols, sparsity);
+    DenseMatrix B = genMatrix(rows, cols, sparsity);
+    if (sampling == "sampling")
+      ddmmSampling(A, B, sparsity, false);
+    else if (sampling == "psampling")
+      ddmmSampling(A, B, sparsity, true);
+    else
+      ddmm(A, B);
   } else {
 
     Format tFormat, outFormat;
