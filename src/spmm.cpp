@@ -2,8 +2,8 @@
 #include "../include/chrono_timer.h"
 #include "../include/utils.h"
 #include <chrono>
-#include <string>
 #include <iostream>
+#include <string>
 // #include <omp.h>
 #include <ostream>
 #include <taco.h>
@@ -14,7 +14,7 @@ using namespace taco;
 
 using DenseMatrix = vector<vector<double>>;
 
-const void printMatrix(const DenseMatrix& matrix) {
+const void printMatrix(const DenseMatrix &matrix) {
   int rows = matrix.size();
   int cols = matrix.empty() ? 0 : matrix[0].size();
   for (int i = 0; i < rows; ++i)
@@ -34,7 +34,7 @@ const DenseMatrix genMatrix(int rows, int cols, float sparsity) {
   return matrix;
 }
 
-const bool sampling(const DenseMatrix& input, float sparsity, bool parallel) {
+const bool sampling(const DenseMatrix &input, float sparsity, bool parallel) {
   int rows = input.size();
   int cols = input.empty() ? 0 : input[0].size();
   int count = 0;
@@ -53,7 +53,7 @@ const bool sampling(const DenseMatrix& input, float sparsity, bool parallel) {
   return static_cast<double>(count) / (rows * cols) >= sparsity;
 }
 
-const bool samplingTaco(Tensor<double>& input, float sparsity, bool parallel) {
+const bool samplingTaco(Tensor<double> &input, float sparsity, bool parallel) {
   int rows = input.getDimension(0);
   int cols = input.getDimension(1);
   int count = 0;
@@ -71,7 +71,8 @@ const bool samplingTaco(Tensor<double>& input, float sparsity, bool parallel) {
   return static_cast<double>(count) / (rows * cols) >= sparsity;
 }
 
-const Tensor<double> convertToTACO(DenseMatrix& matrix, const taco::Format& format) {
+const Tensor<double> convertToTACO(DenseMatrix &matrix,
+                                   const taco::Format &format) {
   int rows = matrix.size();
   int cols = matrix.empty() ? 0 : matrix[0].size();
   Tensor<double> tensor({rows, cols}, format);
@@ -86,7 +87,8 @@ const Tensor<double> convertToTACO(DenseMatrix& matrix, const taco::Format& form
   return tensor;
 }
 
-const Tensor<double> convertToFormat(const Tensor<double>& dense, const Format& format) {
+const Tensor<double> convertToFormat(const Tensor<double> &dense,
+                                     const Format &format) {
   Tensor<double> sparse({dense.getDimension(0), dense.getDimension(1)}, format);
   for (auto &val : dense)
     sparse.insert(val.first.toVector(), val.second);
@@ -94,7 +96,7 @@ const Tensor<double> convertToFormat(const Tensor<double>& dense, const Format& 
   return sparse;
 }
 
-const DenseMatrix matrixMultiply(const DenseMatrix& A, const DenseMatrix& B) {
+const DenseMatrix matrixMultiply(const DenseMatrix &A, const DenseMatrix &B) {
   int m = A.size();
   int n = B[0].size();
   int p = A[0].size();
@@ -108,8 +110,8 @@ const DenseMatrix matrixMultiply(const DenseMatrix& A, const DenseMatrix& B) {
   return C;
 }
 
-Tensor<double> matrixMultiply(Tensor<double>& A, const Tensor<double>& B,
-                              const Tensor<double>& C) {
+Tensor<double> matrixMultiply(Tensor<double> &A, const Tensor<double> &B,
+                              const Tensor<double> &C) {
   IndexVar i("i"), j("j"), k("k");
   A(i, j) = sum(k, B(i, k) * C(k, j));
   A.evaluate();
@@ -117,7 +119,8 @@ Tensor<double> matrixMultiply(Tensor<double>& A, const Tensor<double>& B,
   return A;
 }
 
-const void spmm(const Tensor<double>& A, const Tensor<double>& B, const Format& format) {
+const void spmm(const Tensor<double> &A, const Tensor<double> &B,
+                const Format &format) {
   auto start = begin();
 
   int m = A.getDimension(0);
@@ -127,7 +130,8 @@ const void spmm(const Tensor<double>& A, const Tensor<double>& B, const Format& 
   end(start);
 }
 
-const void spmmInput(DenseMatrix& input, const Tensor<double>& B, const Format& format) {
+const void spmmInput(DenseMatrix &input, const Tensor<double> &B,
+                     const Format &format) {
   auto start = begin();
   Tensor<double> A = convertToTACO(input, format);
   int m = A.getDimension(0);
@@ -137,8 +141,9 @@ const void spmmInput(DenseMatrix& input, const Tensor<double>& B, const Format& 
   end(start);
 }
 
-const void spmmInputSampling(DenseMatrix& input, const Tensor<double>& B, const Format& format,
-                       float sparsity, bool parallel) {
+const void spmmInputSampling(DenseMatrix &input, const Tensor<double> &B,
+                             const Format &format, float sparsity,
+                             bool parallel) {
   // Input has the desired sparsity
   auto start = begin();
 
@@ -152,8 +157,8 @@ const void spmmInputSampling(DenseMatrix& input, const Tensor<double>& B, const 
   end(start);
 }
 
-const void spmmSampling(Tensor<double>& A, Tensor<double>& B, const Format& format,
-                  float sparsity, bool parallel) {
+const void spmmSampling(Tensor<double> &A, Tensor<double> &B,
+                        const Format &format, float sparsity, bool parallel) {
   // Input has the desired sparsity
   auto start = begin();
   bool yes = samplingTaco(A, sparsity, parallel);
@@ -165,8 +170,16 @@ const void spmmSampling(Tensor<double>& A, Tensor<double>& B, const Format& form
   end(start);
 }
 
-const void ddmm(const DenseMatrix& A, const DenseMatrix& B) {
+const void ddmm(const DenseMatrix &A, const DenseMatrix &B) {
   auto start = begin();
+  DenseMatrix c = matrixMultiply(A, B);
+  end(start);
+}
+
+const void ddmmSampling(const DenseMatrix &A, const DenseMatrix &B,
+                        const float sparsity, const bool parallel) {
+  auto start = begin();
+  bool yes = sampling(A, sparsity, parallel);
   DenseMatrix c = matrixMultiply(A, B);
   end(start);
 }
