@@ -68,11 +68,11 @@
   ((1024, 1024), DD, false, 0.9, false, none),
   
   ((1024, 1024), DD, false, 0.6, true, none),
-  ((1024, 1024), DD, false, 0.6, true, none),
+  ((1024, 1024), DD, false, 0.8, true, none),
   ((1024, 1024), DD, false, 0.9, true, none),
 
   ((1024, 1024), DD, false, 0.6, true, sampling),
-  ((1024, 1024), DD, false, 0.6, true, sampling),
+  ((1024, 1024), DD, false, 0.8, true, sampling),
   ((1024, 1024), DD, false, 0.9, true, sampling),
 
   ((1024, 1024), DD, false, 0.6, true, psampling),
@@ -82,11 +82,11 @@
   #Naive
 
   ((1024, 1024), NDD, false, 0.6, false, none),
-  ((1024, 1024), NDD, false, 0.6, false, none),
+  ((1024, 1024), NDD, false, 0.8, false, none),
   ((1024, 1024), NDD, false, 0.9, false, none),
 
   ((1024, 1024), NDD, false, 0.6, false, sampling),
-  ((1024, 1024), NDD, false, 0.6, false, sampling),
+  ((1024, 1024), NDD, false, 0.8, false, sampling),
   ((1024, 1024), NDD, false, 0.9, false, sampling),
 
   ((1024, 1024), NDD, false, 0.6, false, psampling),
