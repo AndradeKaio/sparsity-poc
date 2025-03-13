@@ -17,23 +17,35 @@ using DenseMatrix = vector<vector<double>>;
 const void printMatrix(const DenseMatrix &matrix) {
   int rows = matrix.size();
   int cols = matrix.empty() ? 0 : matrix[0].size();
-  for (int i = 0; i < rows; ++i)
+  for (int i = 0; i < rows; ++i) {
+    cout << endl;
     for (int j = 0; j < cols; ++j)
-      cout << matrix[i][j];
+      cout << matrix[i][j] << " ";
+  }
 }
 
 const DenseMatrix genMatrix(int rows, int cols, float sparsity) {
   DenseMatrix matrix(rows, vector<double>(cols, 0.0));
   srand(time(0));
 
-  for (int i = 0; i < rows; ++i)
-    for (int j = 0; j < cols; ++j)
-      if ((rand() / (double)RAND_MAX) > sparsity)
-        matrix[i][j] = (rand() % 10) + 1;
+  int total_elements = rows * cols;
+  int nonzero_count = total_elements * (1.0 - sparsity);
+
+  vector<int> indices(total_elements);
+  for (int i = 0; i < total_elements; ++i)
+    indices[i] = i;
+
+  random_shuffle(indices.begin(), indices.end());
+
+  for (int k = 0; k < nonzero_count; ++k) {
+    int index = indices[k];
+    int i = index / cols;
+    int j = index % cols;
+    matrix[i][j] = (rand() % 10) + 1;
+  }
 
   return matrix;
 }
-
 const bool sampling(const DenseMatrix &input, float sparsity, bool parallel) {
   int rows = input.size();
   int cols = input.empty() ? 0 : input[0].size();
