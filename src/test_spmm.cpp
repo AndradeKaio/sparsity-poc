@@ -81,7 +81,8 @@ int parseArguments(int argc, char *argv[]) {
   std::string input_str = argv[6];
   std::string sampling = argv[7];
 
-  std::vector<std::string> valid_formats = {"CSR", "CSC", "DCSR", "DD", "NDD"};
+  std::vector<std::string> valid_formats = {"CSR",  "CSC", "DCSR",
+                                            "DCSC", "DD",  "NDD"};
   if (std::find(valid_formats.begin(), valid_formats.end(), format) ==
       valid_formats.end()) {
     std::cerr << "Invalid format: " << format << "\n";
