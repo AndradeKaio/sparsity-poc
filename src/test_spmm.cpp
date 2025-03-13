@@ -25,12 +25,15 @@ void run(int rows, int cols, const std::string &format, double sparsity,
 
     Format tFormat, outFormat;
     if (format == "CSR")
-      tFormat = Format({Sparse, Dense});
-    else if (format == "CSC")
       tFormat = Format({Dense, Sparse});
+    else if (format == "CSC")
+      tFormat = Format({Dense, Sparse}, {1, 0});
     else if (format == "DD")
       tFormat = Format({Dense, Dense});
-    else {
+    else if (format == "DCSR") {
+      tFormat = Format({Sparse, Sparse}, {0, 1});
+      dense_output = true;
+    } else if (format == "DCSC") {
       tFormat = Format({Sparse, Sparse}, {1, 0});
       dense_output = true;
     }
