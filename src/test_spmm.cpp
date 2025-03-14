@@ -7,12 +7,13 @@
 using namespace taco;
 
 void run(int rows, int cols, const std::string &format, double sparsity,
-         bool input, const std::string &sampling, bool dense_output) {
+         bool input, const std::string &sampling, bool dense_output,
+         int xStride, int yStride) {
 
   std::cout << "size:" << rows << "x" << cols << ", format:" << format
             << ", sparsity:" << sparsity << ", input-conversion:" << input
-            << ", dense-output:" << dense_output << ", sampling:" << sampling
-            << std::endl;
+            << ", sampling:" << sampling << ", xStride: " << xStride
+            << ", yStride:" << yStride << std::endl;
   if (format == "NDD") {
     DenseMatrix A = genMatrix(rows, cols, sparsity);
     DenseMatrix B = genMatrix(rows, cols, sparsity);
@@ -51,15 +52,15 @@ void run(int rows, int cols, const std::string &format, double sparsity,
       DenseMatrix tmp = genMatrix(rows, cols, sparsity);
       Tensor<double> A = convertToTACO(tmp, tFormat);
       if (sampling == "sampling")
-        spmmSampling(A, B, outFormat, sparsity, false);
+        spmmSampling(A, B, outFormat, sparsity, false, xStride, yStride);
       else
         spmm(A, B, outFormat);
     } else {
       DenseMatrix A = genMatrix(rows, cols, sparsity);
       if (sampling == "sampling") {
-        spmmInputSampling(A, B, outFormat, sparsity, false);
+        spmmInputSampling(A, B, outFormat, sparsity, false, xStride, yStride);
       } else if (sampling == "psampling") {
-        spmmInputSampling(A, B, outFormat, sparsity, true);
+        spmmInputSampling(A, B, outFormat, sparsity, true, xStride, yStride);
       } else {
         spmmInput(A, B, outFormat);
       }
@@ -68,10 +69,10 @@ void run(int rows, int cols, const std::string &format, double sparsity,
 }
 
 int parseArguments(int argc, char *argv[]) {
-  if (argc != 8) {
+  if (argc != 10) {
     std::cerr << "Usage: " << argv[0]
               << " <rows> <cols> <format> <dense_output> <sparsity> <input> "
-                 "<sampling>\n";
+                 "<sampling> <x_stride> <y_stride>\n";
     return 1;
   }
 
@@ -82,6 +83,8 @@ int parseArguments(int argc, char *argv[]) {
   double sparsity = std::stod(argv[5]);
   std::string input_str = argv[6];
   std::string sampling = argv[7];
+  int xStride = std::stoi(argv[8]);
+  int yStride = std::stoi(argv[9]);
 
   std::vector<std::string> valid_formats = {"CSR",  "CSC", "DCSR",
                                             "DCSC", "DD",  "NDD"};
@@ -102,7 +105,8 @@ int parseArguments(int argc, char *argv[]) {
     return 1;
   }
 
-  run(rows, cols, format, sparsity, input, sampling, dense_output);
+  run(rows, cols, format, sparsity, input, sampling, dense_output, xStride,
+      yStride);
   return 0;
 }
 

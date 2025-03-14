@@ -9,7 +9,7 @@ def parse_config_file(file_path):
             line = line.strip()
             if line.startswith("#") or not line:
                 continue
-            match = re.match(r"\(\((\d+), (\d+)\), (\w+), (\w+), ([0-9.]+), (\w+), (\w+)\)", line)
+            match = re.match(r"\(\((\d+), (\d+)\), (\w+), (\w+), ([0-9.]+), (\w+), (\w+)\, (\d+)\, (\d+)\)", line)
             if not match:
                 print("Error parsing the input")
                 sys.exit(1)
@@ -20,7 +20,9 @@ def parse_config_file(file_path):
                 sparsity = float(match.group(5))
                 input_conv = match.group(6).lower() == "true"
                 sampling = match.group(7)
-                configs.append((size, format_type, dense_output, sparsity, input_conv, sampling))
+                x_stride = match.group(8)
+                y_stride = match.group(9)
+                configs.append((size, format_type, dense_output, sparsity, input_conv, sampling, x_stride, y_stride))
     return configs
 
 def run_binary(binary_path, args, num_runs):
@@ -49,7 +51,7 @@ def main():
     configs = parse_config_file(config_file)
     with open(output_file, "wt") as output:
         for config in configs:
-            args = [config[0][0], config[0][1], config[1], config[2], config[3], config[4], config[5]]
+            args = [config[0][0], config[0][1], config[1], config[2], config[3], config[4], config[5], config[6], config[7]]
             avg_time = run_binary(binary_path, args, num_runs)
             output.write(f"{args}:{avg_time:.2f}ms\n")
             print(f"Executed {args}:{avg_time:.2f}ms")
