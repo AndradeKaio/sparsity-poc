@@ -11,7 +11,8 @@ void run(int rows, int cols, const std::string &format, double sparsity,
 
   std::cout << "size:" << rows << "x" << cols << ", format:" << format
             << ", sparsity:" << sparsity << ", input-conversion:" << input
-            << ", sampling:" << sampling << std::endl;
+            << ", dense-output:" << dense_output << ", sampling:" << sampling
+            << std::endl;
   if (format == "NDD") {
     DenseMatrix A = genMatrix(rows, cols, sparsity);
     DenseMatrix B = genMatrix(rows, cols, sparsity);
@@ -45,6 +46,7 @@ void run(int rows, int cols, const std::string &format, double sparsity,
 
     DenseMatrix tmp = genMatrix(rows, cols, sparsity);
     Tensor<double> B = convertToTACO(tmp, tFormat);
+
     if (!input) {
       DenseMatrix tmp = genMatrix(rows, cols, sparsity);
       Tensor<double> A = convertToTACO(tmp, tFormat);
@@ -89,8 +91,9 @@ int parseArguments(int argc, char *argv[]) {
     return 1;
   }
 
-  bool input = (input_str == "true");
-  bool dense_output = (dense_output_str == "true");
+  bool input = (input_str == "true" || input_str == "True");
+  bool dense_output =
+      (dense_output_str == "true" || dense_output_str == "True");
 
   std::vector<std::string> valid_sampling = {"none", "sampling", "psampling"};
   if (std::find(valid_sampling.begin(), valid_sampling.end(), sampling) ==
