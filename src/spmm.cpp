@@ -46,41 +46,48 @@ const DenseMatrix genMatrix(int rows, int cols, float sparsity) {
 
   return matrix;
 }
-const bool sampling(const DenseMatrix &input, float sparsity, bool parallel) {
+
+const bool sampling(const DenseMatrix &input, float sparsity, bool parallel, int xStride=1, int yStride=1) {
   int rows = input.size();
   int cols = input.empty() ? 0 : input[0].size();
   int count = 0;
   if (parallel) {
 #pragma omp parallel for reduction(+ : count) collapse(2)
-    for (int i = 0; i < rows; i++)
-      for (int j = 0; j < cols; j++)
+    for (int i = 0; i < rows; i += yStride)
+      for (int j = 0; j < cols; j += xStride)
         if (input[i][j] == 0)
           count++;
   } else {
-    for (int i = 0; i < rows; i++)
-      for (int j = 0; j < cols; j++)
+    for (int i = 0; i < rows; i += yStride)
+      for (int j = 0; j < cols; j += xStride)
         if (input[i][j] == 0)
           count++;
   }
-  return static_cast<double>(count) / (rows * cols) >= sparsity;
+  int xTotal = (cols + xStride - 1) / xStride;
+  int yTotal = (rows + yStride - 1) / yStride;
+  return static_cast<double>(count) / (xTotal * yTotal) >= sparsity;
 }
 
-const bool samplingTaco(Tensor<double> &input, float sparsity, bool parallel) {
+const bool samplingTaco(Tensor<double> &input, float sparsity, bool parallel, int xStride, int yStride) {
   int rows = input.getDimension(0);
   int cols = input.getDimension(1);
   int count = 0;
   if (parallel) {
 #pragma omp parallel for reduction(+ : count) collapse(2)
-    for (int i = 0; i < rows; i++)
-      for (int j = 0; j < cols; j++)
+    for (int i = 0; i < rows; i += yStride)
+      for (int j = 0; j < cols; j += xStride)
         if (input.at({i, j}) == 0)
           count++;
   } else {
     for (auto &val : input)
-      if (val.second == 0)
-        count++;
+      if (val.first[0] % xStride == 0 && val.first[1] % yStride == 0)
+          if (val.second == 0)
+            count++;
   }
-  return static_cast<double>(count) / (rows * cols) >= sparsity;
+
+  int xTotal = (cols + xStride - 1) / xStride;
+  int yTotal = (rows + yStride - 1) / yStride;
+  return static_cast<double>(count) / (xTotal * yTotal) >= sparsity;
 }
 
 const Tensor<double> convertToTACO(DenseMatrix &matrix,
@@ -155,11 +162,11 @@ const void spmmInput(DenseMatrix &input, const Tensor<double> &B,
 
 const void spmmInputSampling(DenseMatrix &input, const Tensor<double> &B,
                              const Format &format, float sparsity,
-                             bool parallel) {
+                             bool parallel, int xStride, int yStride) {
   // Input has the desired sparsity
   auto start = begin();
 
-  bool yes = sampling(input, sparsity, parallel);
+  bool yes = sampling(input, sparsity, parallel, xStride, yStride);
   Tensor<double> A = convertToTACO(input, format);
   int m = A.getDimension(0);
   int n = B.getDimension(1);
@@ -170,10 +177,10 @@ const void spmmInputSampling(DenseMatrix &input, const Tensor<double> &B,
 }
 
 const void spmmSampling(Tensor<double> &A, Tensor<double> &B,
-                        const Format &format, float sparsity, bool parallel) {
+                        const Format &format, float sparsity, bool parallel, int xStride, int yStride) {
   // Input has the desired sparsity
   auto start = begin();
-  bool yes = samplingTaco(A, sparsity, parallel);
+  bool yes = samplingTaco(A, sparsity, parallel, xStride, yStride);
   B = convertToFormat(B, format);
   int m = A.getDimension(0);
   int n = B.getDimension(1);
@@ -189,9 +196,9 @@ const void ddmm(const DenseMatrix &A, const DenseMatrix &B) {
 }
 
 const void ddmmSampling(const DenseMatrix &A, const DenseMatrix &B,
-                        const float sparsity, const bool parallel) {
+                        const float sparsity, const bool parallel, int xStride, int yStride) {
   auto start = begin();
-  bool yes = sampling(A, sparsity, parallel);
+  bool yes = sampling(A, sparsity, parallel, xStride, yStride);
   DenseMatrix c = matrixMultiply(A, B);
   end(start);
 }

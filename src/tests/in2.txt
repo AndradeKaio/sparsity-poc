@@ -1,95 +1,95 @@
 # size, format, dense_output, sparsity, input-conv, sampling
 
   # SPMM CSR 
-  ((2048, 2048), CSR, false, 0.6, false, none),
-  ((2048, 2048), CSR, false, 0.8, false, none),
-  ((2048, 2048), CSR, false, 0.9, false, none),
+  ((2048, 2048), CSR, false, 0.6, false, none, 1, 1),
+  ((2048, 2048), CSR, false, 0.8, false, none, 1, 1),
+  ((2048, 2048), CSR, false, 0.9, false, none, 1, 1),
 
-  ((2048, 2048), CSR, false, 0.6, true, none),
-  ((2048, 2048), CSR, false, 0.8, true, none),
-  ((2048, 2048), CSR, false, 0.9, true, none),
+  ((2048, 2048), CSR, false, 0.6, true, none, 1, 1),
+  ((2048, 2048), CSR, false, 0.8, true, none, 1, 1),
+  ((2048, 2048), CSR, false, 0.9, true, none, 1, 1),
 
-  ((2048, 2048), CSR, false, 0.6, true, sampling),
-  ((2048, 2048), CSR, false, 0.8, true, sampling),
-  ((2048, 2048), CSR, false, 0.9, true, sampling),
+  ((2048, 2048), CSR, false, 0.6, true, sampling, 1, 1),
+  ((2048, 2048), CSR, false, 0.8, true, sampling, 1, 1),
+  ((2048, 2048), CSR, false, 0.9, true, sampling, 1, 1),
 
-  ((2048, 2048), CSR, false, 0.6, true, psampling),
-  ((2048, 2048), CSR, false, 0.8, true, psampling),
-  ((2048, 2048), CSR, false, 0.9, true, psampling),
+  ((2048, 2048), CSR, false, 0.6, true, psampling, 1, 1),
+  ((2048, 2048), CSR, false, 0.8, true, psampling, 1, 1),
+  ((2048, 2048), CSR, false, 0.9, true, psampling, 1, 1),
 
-  ((2048, 2048), CSR, true, 0.6, true, psampling),
-  ((2048, 2048), CSR, true, 0.8, true, psampling),
-  ((2048, 2048), CSR, true, 0.9, true, psampling),
+  ((2048, 2048), CSR, true, 0.6, true, psampling, 1, 1),
+  ((2048, 2048), CSR, true, 0.8, true, psampling, 1, 1),
+  ((2048, 2048), CSR, true, 0.9, true, psampling, 1, 1),
 
   #SPMM CSC
 
-  ((2048, 2048), CSC, false, 0.6, false, none),
-  ((2048, 2048), CSC, false, 0.8, false, none),
-  ((2048, 2048), CSC, false, 0.9, false, none),
+  ((2048, 2048), CSC, false, 0.6, false, none, 1, 1),
+  ((2048, 2048), CSC, false, 0.8, false, none, 1, 1),
+  ((2048, 2048), CSC, false, 0.9, false, none, 1, 1),
 
-  ((2048, 2048), CSC, false, 0.6, true, none),
-  ((2048, 2048), CSC, false, 0.8, true, none),
-  ((2048, 2048), CSC, false, 0.9, true, none),
+  ((2048, 2048), CSC, false, 0.6, true, none, 1, 1),
+  ((2048, 2048), CSC, false, 0.8, true, none, 1, 1),
+  ((2048, 2048), CSC, false, 0.9, true, none, 1, 1),
 
-  ((2048, 2048), CSC, false, 0.6, true, sampling),
-  ((2048, 2048), CSC, false, 0.8, true, sampling),
-  ((2048, 2048), CSC, false, 0.9, true, sampling),
+  ((2048, 2048), CSC, false, 0.6, true, sampling, 1, 1),
+  ((2048, 2048), CSC, false, 0.8, true, sampling, 1, 1),
+  ((2048, 2048), CSC, false, 0.9, true, sampling, 1, 1),
 
-  ((2048, 2048), CSC, false, 0.6, true, psampling),
-  ((2048, 2048), CSC, false, 0.8, true, psampling),
-  ((2048, 2048), CSC, false, 0.9, true, psampling),
+  ((2048, 2048), CSC, false, 0.6, true, psampling, 1, 1),
+  ((2048, 2048), CSC, false, 0.8, true, psampling, 1, 1),
+  ((2048, 2048), CSC, false, 0.9, true, psampling, 1, 1),
 
-  ((2048, 2048), CSC, true, 0.6, true, psampling),
-  ((2048, 2048), CSC, true, 0.8, true, psampling),
-  ((2048, 2048), CSC, true, 0.9, true, psampling),
+  ((2048, 2048), CSC, true, 0.6, true, psampling, 1, 1),
+  ((2048, 2048), CSC, true, 0.8, true, psampling, 1, 1),
+  ((2048, 2048), CSC, true, 0.9, true, psampling, 1, 1),
 
   #SPMM DCSR
 
-  ((2048, 2048), DCSR, true, 0.6, false, none),
-  ((2048, 2048), DCSR, true, 0.8, false, none),
-  ((2048, 2048), DCSR, true, 0.9, false, none),
+  ((2048, 2048), DCSR, true, 0.6, false, none, 1, 1),
+  ((2048, 2048), DCSR, true, 0.8, false, none, 1, 1),
+  ((2048, 2048), DCSR, true, 0.9, false, none, 1, 1),
 
-  ((2048, 2048), DCSR, true, 0.6, true, none),
-  ((2048, 2048), DCSR, true, 0.8, true, none),
-  ((2048, 2048), DCSR, true, 0.9, true, none),
+  ((2048, 2048), DCSR, true, 0.6, true, none, 1, 1),
+  ((2048, 2048), DCSR, true, 0.8, true, none, 1, 1),
+  ((2048, 2048), DCSR, true, 0.9, true, none, 1, 1),
 
-  ((2048, 2048), DCSR, true, 0.6, true, sampling),
-  ((2048, 2048), DCSR, true, 0.8, true, sampling),
-  ((2048, 2048), DCSR, true, 0.9, true, sampling),
+  ((2048, 2048), DCSR, true, 0.6, true, sampling, 1, 1),
+  ((2048, 2048), DCSR, true, 0.8, true, sampling, 1, 1),
+  ((2048, 2048), DCSR, true, 0.9, true, sampling, 1, 1),
 
-  ((2048, 2048), DCSR, true, 0.6, true, psampling),
-  ((2048, 2048), DCSR, true, 0.8, true, psampling),
-  ((2048, 2048), DCSR, true, 0.9, true, psampling),
+  ((2048, 2048), DCSR, true, 0.6, true, psampling, 1, 1),
+  ((2048, 2048), DCSR, true, 0.8, true, psampling, 1, 1),
+  ((2048, 2048), DCSR, true, 0.9, true, psampling, 1, 1),
 
   #SPMM DD
 
-  ((2048, 2048), DD, false, 0.6, false, none),
-  ((2048, 2048), DD, false, 0.8, false, none),
-  ((2048, 2048), DD, false, 0.9, false, none),
+  ((2048, 2048), DD, false, 0.6, false, none, 1, 1),
+  ((2048, 2048), DD, false, 0.8, false, none, 1, 1),
+  ((2048, 2048), DD, false, 0.9, false, none, 1, 1),
   
-  ((2048, 2048), DD, false, 0.6, true, none),
-  ((2048, 2048), DD, false, 0.8, true, none),
-  ((2048, 2048), DD, false, 0.9, true, none),
+  ((2048, 2048), DD, false, 0.6, true, none, 1, 1),
+  ((2048, 2048), DD, false, 0.8, true, none, 1, 1),
+  ((2048, 2048), DD, false, 0.9, true, none, 1, 1),
 
-  ((2048, 2048), DD, false, 0.6, true, sampling),
-  ((2048, 2048), DD, false, 0.8, true, sampling),
-  ((2048, 2048), DD, false, 0.9, true, sampling),
+  ((2048, 2048), DD, false, 0.6, true, sampling, 1, 1),
+  ((2048, 2048), DD, false, 0.8, true, sampling, 1, 1),
+  ((2048, 2048), DD, false, 0.9, true, sampling, 1, 1),
 
-  ((2048, 2048), DD, false, 0.6, true, psampling),
-  ((2048, 2048), DD, false, 0.8, true, psampling),
-  ((2048, 2048), DD, false, 0.9, true, psampling),
+  ((2048, 2048), DD, false, 0.6, true, psampling, 1, 1),
+  ((2048, 2048), DD, false, 0.8, true, psampling, 1, 1),
+  ((2048, 2048), DD, false, 0.9, true, psampling, 1, 1),
 
   #Naive
 
-  ((2048, 2048), NDD, false, 0.6, false, none),
-  ((2048, 2048), NDD, false, 0.8, false, none),
-  ((2048, 2048), NDD, false, 0.9, false, none),
+  ((2048, 2048), NDD, false, 0.6, false, none, 1, 1),
+  ((2048, 2048), NDD, false, 0.8, false, none, 1, 1),
+  ((2048, 2048), NDD, false, 0.9, false, none, 1, 1),
 
-  ((2048, 2048), NDD, false, 0.6, false, sampling),
-  ((2048, 2048), NDD, false, 0.8, false, sampling),
-  ((2048, 2048), NDD, false, 0.9, false, sampling),
+  ((2048, 2048), NDD, false, 0.6, false, sampling, 1, 1),
+  ((2048, 2048), NDD, false, 0.8, false, sampling, 1, 1),
+  ((2048, 2048), NDD, false, 0.9, false, sampling, 1, 1),
 
-  ((2048, 2048), NDD, false, 0.6, false, psampling),
-  ((2048, 2048), NDD, false, 0.8, false, psampling),
-  ((2048, 2048), NDD, false, 0.9, false, psampling),
+  ((2048, 2048), NDD, false, 0.6, false, psampling, 1, 1),
+  ((2048, 2048), NDD, false, 0.8, false, psampling, 1, 1),
+  ((2048, 2048), NDD, false, 0.9, false, psampling, 1, 1),
 

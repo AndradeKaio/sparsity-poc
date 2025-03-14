@@ -1,0 +1,94 @@
+# size, format, dense_output, sparsity, input-conv, sampling
+
+  # SPMM CSR 
+  ((1024, 1024), CSR, false, 0.6, false, none, 64, 64),
+  ((1024, 1024), CSR, false, 0.8, false, none, 64, 64),
+  ((1024, 1024), CSR, false, 0.9, false, none, 64, 64),
+
+  ((1024, 1024), CSR, false, 0.6, true, none, 64, 64),
+  ((1024, 1024), CSR, false, 0.8, true, none, 64, 64),
+  ((1024, 1024), CSR, false, 0.9, true, none, 64, 64),
+
+  ((1024, 1024), CSR, false, 0.6, true, sampling, 64, 64),
+  ((1024, 1024), CSR, false, 0.8, true, sampling, 64, 64),
+  ((1024, 1024), CSR, false, 0.9, true, sampling, 64, 64),
+
+  ((1024, 1024), CSR, false, 0.6, true, psampling, 64, 64),
+  ((1024, 1024), CSR, false, 0.8, true, psampling, 64, 64),
+  ((1024, 1024), CSR, false, 0.9, true, psampling, 64, 64),
+
+  ((1024, 1024), CSR, true, 0.6, true, psampling, 64, 64),
+  ((1024, 1024), CSR, true, 0.8, true, psampling, 64, 64),
+  ((1024, 1024), CSR, true, 0.9, true, psampling, 64, 64),
+
+  #SPMM CSC
+
+  ((1024, 1024), CSC, false, 0.6, false, none, 64, 64),
+  ((1024, 1024), CSC, false, 0.8, false, none, 64, 64),
+  ((1024, 1024), CSC, false, 0.9, false, none, 64, 64),
+
+  ((1024, 1024), CSC, false, 0.6, true, none, 64, 64),
+  ((1024, 1024), CSC, false, 0.8, true, none, 64, 64),
+  ((1024, 1024), CSC, false, 0.9, true, none, 64, 64),
+
+  ((1024, 1024), CSC, false, 0.6, true, sampling, 64, 64),
+  ((1024, 1024), CSC, false, 0.8, true, sampling, 64, 64),
+  ((1024, 1024), CSC, false, 0.9, true, sampling, 64, 64),
+
+  ((1024, 1024), CSC, false, 0.6, true, psampling, 64, 64),
+  ((1024, 1024), CSC, false, 0.8, true, psampling, 64, 64),
+  ((1024, 1024), CSC, false, 0.9, true, psampling, 64, 64),
+
+  ((1024, 1024), CSC, true, 0.6, true, psampling, 64, 64),
+  ((1024, 1024), CSC, true, 0.8, true, psampling, 64, 64),
+  ((1024, 1024), CSC, true, 0.9, true, psampling, 64, 64),
+
+  #SPMM DCSR
+
+  ((1024, 1024), DCSR, true, 0.6, false, none, 64, 64),
+  ((1024, 1024), DCSR, true, 0.8, false, none, 64, 64),
+  ((1024, 1024), DCSR, true, 0.9, false, none, 64, 64),
+
+  ((1024, 1024), DCSR, true, 0.6, true, none, 64, 64),
+  ((1024, 1024), DCSR, true, 0.8, true, none, 64, 64),
+  ((1024, 1024), DCSR, true, 0.9, true, none, 64, 64),
+
+  ((1024, 1024), DCSR, true, 0.6, true, sampling, 64, 64),
+  ((1024, 1024), DCSR, true, 0.8, true, sampling, 64, 64),
+  ((1024, 1024), DCSR, true, 0.9, true, sampling, 64, 64),
+
+  ((1024, 1024), DCSR, true, 0.6, true, psampling, 64, 64),
+  ((1024, 1024), DCSR, true, 0.8, true, psampling, 64, 64),
+  ((1024, 1024), DCSR, true, 0.9, true, psampling, 64, 64),
+
+  #SPMM DD
+
+  ((1024, 1024), DD, false, 0.6, false, none, 64, 64),
+  ((1024, 1024), DD, false, 0.8, false, none, 64, 64),
+  ((1024, 1024), DD, false, 0.9, false, none, 64, 64),
+  
+  ((1024, 1024), DD, false, 0.6, true, none, 64, 64),
+  ((1024, 1024), DD, false, 0.8, true, none, 64, 64),
+  ((1024, 1024), DD, false, 0.9, true, none, 64, 64),
+
+  ((1024, 1024), DD, false, 0.6, true, sampling, 64, 64),
+  ((1024, 1024), DD, false, 0.8, true, sampling, 64, 64),
+  ((1024, 1024), DD, false, 0.9, true, sampling, 64, 64),
+
+  ((1024, 1024), DD, false, 0.6, true, psampling, 64, 64),
+  ((1024, 1024), DD, false, 0.8, true, psampling, 64, 64),
+  ((1024, 1024), DD, false, 0.9, true, psampling, 64, 64),
+
+  #Naive
+
+  ((1024, 1024), NDD, false, 0.6, false, none, 64, 64),
+  ((1024, 1024), NDD, false, 0.8, false, none, 64, 64),
+  ((1024, 1024), NDD, false, 0.9, false, none, 64, 64),
+
+  ((1024, 1024), NDD, false, 0.6, false, sampling, 64, 64),
+  ((1024, 1024), NDD, false, 0.8, false, sampling, 64, 64),
+  ((1024, 1024), NDD, false, 0.9, false, sampling, 64, 64),
+
+  ((1024, 1024), NDD, false, 0.6, false, psampling, 64, 64),
+  ((1024, 1024), NDD, false, 0.8, false, psampling, 64, 64),
+  ((1024, 1024), NDD, false, 0.9, false, psampling, 64, 64),
